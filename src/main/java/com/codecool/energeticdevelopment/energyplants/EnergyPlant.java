@@ -4,6 +4,8 @@ import com.codecool.energeticdevelopment.energystorage.EnergyStorage;
 import com.codecool.energeticdevelopment.fuelstorage.Fuel;
 import com.codecool.energeticdevelopment.fuelstorage.FuelStorage;
 
+import java.util.Optional;
+
 public abstract class EnergyPlant {
     protected final Energy energyDailyProduced;
     protected Energy energyAvailable;
@@ -17,10 +19,17 @@ public abstract class EnergyPlant {
     }
 
 
-    public EnergyPlant getFuel ( FuelStorage fuelStorage ){
-        fuelStorage.useFuel(fuelDailyConsumed);
-        return this;
+    public Optional<Fuel>  useFuel ( FuelStorage fuelStorage ){
+        Optional<Fuel> maybeUsedFuel = fuelStorage.useFuel(fuelDailyConsumed);
+        if (maybeUsedFuel.isEmpty()){
+            // should be procedure to close Energy Plant or to change used fuelStorage it uses.
+            return Optional.empty();
+        } else {
+            return Optional.of(fuelDailyConsumed);
+        }
+
     }
+
 
     public EnergyPlant storeEnergy( EnergyStorage energyStorage ){
         energyStorage.addEnergy(energyDailyProduced);

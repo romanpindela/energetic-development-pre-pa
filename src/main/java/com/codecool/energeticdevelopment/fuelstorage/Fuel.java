@@ -1,5 +1,7 @@
 package com.codecool.energeticdevelopment.fuelstorage;
 
+import java.util.Optional;
+
 public class Fuel {
     protected int fuelUnits;
 
@@ -15,9 +17,12 @@ public class Fuel {
         return this;
     }
 
-    public Fuel useFuel( int usedFuel){
-        fuelUnits -= usedFuel;
-        return this;
+    public Optional<Fuel> useFuel( int neededFuel){
+        if (fuelUnits - neededFuel >= 0){
+            fuelUnits -= neededFuel;
+            return Optional.of(new Fuel(neededFuel, fuelType));
+        }
+        return Optional.empty();
     }
 
     public int getFuelUnits(){

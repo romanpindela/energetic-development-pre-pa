@@ -6,6 +6,9 @@ import com.codecool.energeticdevelopment.fuelstorage.FuelType;
 
 public class FactoryEnergyPlant {
 
+    private FactoryEnergyPlant () {
+    }
+
     public static EnergyPlant getInstance(
             String typeEnergyPlant
     ){

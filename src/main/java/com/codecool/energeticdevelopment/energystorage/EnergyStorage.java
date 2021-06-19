@@ -1,7 +1,9 @@
 package com.codecool.energeticdevelopment.energystorage;
 
 
-public abstract class EnergyStorage {
+import java.util.Optional;
+
+public class EnergyStorage {
     protected Energy availableEnergy;
 
     public EnergyStorage ( Energy availableEnergy ) {
@@ -9,9 +11,13 @@ public abstract class EnergyStorage {
     }
 
 
-    public EnergyStorage useEnergy( Energy useEnergyUnits ){
-        this.availableEnergy.useEnergy(useEnergyUnits.getEnergyUnits());
-        return this;
+    public Optional<Energy> useEnergy( Energy energyNeeded){
+        Optional<Energy> maybeUsedEnergy = availableEnergy.useEnergy(energyNeeded.getEnergyUnits());
+        if (maybeUsedEnergy.isPresent()){
+            return Optional.of(energyNeeded);
+        } else {
+            return Optional.empty();
+        }
     }
 
     public EnergyStorage addEnergy( Energy addEnergyUnits ){
@@ -26,5 +32,12 @@ public abstract class EnergyStorage {
 
     public void setAvailableEnergy ( Energy availableEnergy ) {
         this.availableEnergy = availableEnergy;
+    }
+
+    @Override
+    public String toString () {
+        return "EnergyStorage{" +
+                "availableEnergy=" + availableEnergy +
+                '}';
     }
 }
